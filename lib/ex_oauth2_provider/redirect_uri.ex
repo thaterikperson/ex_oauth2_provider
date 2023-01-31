@@ -59,6 +59,7 @@ defmodule ExOauth2Provider.RedirectURI do
     case Config.redirect_uri_match_fun(config) do
       nil -> client_uri == %{uri | query: nil}
       fun -> fun.(uri, client_uri, config)
+      {mod, fun} -> apply(mod, fun, [uri, client_uri, config])
     end
   end
 
